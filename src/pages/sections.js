@@ -92,7 +92,7 @@ export const servicesPage = {
   file: 'services.html',
   title: 'Services',
   description:
-    'Website and web application development, AI development and integration, UI/UX design, automation, cloud & DevOps, APIs, e-commerce, maintenance and data analytics.',
+    'Website and web application development, AI development and integration, UI/UX design, automation, cloud & DevOps, APIs, e-commerce, maintenance and data-driven solutions.',
   body: () => `
 ${pageHero({
   eyebrowText: 'Services',
@@ -134,36 +134,93 @@ ${ctaBlock({
 };
 
 // ── Projects ─────────────────────────────────────────────────
+const projImg = (p, eager = false) => p.image
+  ? `<img src="${p.image}" alt="${esc(p.imageAlt || '')}" width="${p.width || ''}" height="${p.height || ''}" ${eager ? '' : 'loading="lazy"'} decoding="async" data-img>`
+  : '';
+
+const newTab = '<span class="sr-only"> (opens in a new tab)</span>';
+const projectLinks = (p) => `
+  ${p.demoUrl ? textLink(`${p.demoLabel || 'Live demo'}${newTab}`, p.demoUrl, 'target="_blank" rel="noopener noreferrer"') : ''}
+  ${p.codeUrl ? textLink(`Source code${newTab}`, p.codeUrl, 'target="_blank" rel="noopener noreferrer"') : ''}`;
+const hasTech = (p) => Boolean(p.tech && p.tech.length);
+
 const projectCard = (p) => `
 <article class="proj" data-reveal>
-  <div class="proj__media">
-    ${p.image ? `<img src="${p.image}" alt="${esc(p.imageAlt || '')}" loading="lazy" decoding="async" data-img>` : ''}
-  </div>
-  <h2 class="proj__title">${p.title}</h2>
+  <div class="proj__media" data-dialog-open="dlg-${p.slug}">${projImg(p)}</div>
+  <p class="proj__meta"><span class="tag tag--outline">${p.category}</span>${hasTech(p) ? `<span>${p.tech.join(' · ')}</span>` : ''}</p>
+  <h3 class="proj__title">${p.title}</h3>
   <p>${p.summary}</p>
-  <ul class="chips">${join(p.tech || [], (t) => `<li>${t}</li>`)}</ul>
   <div class="btn-row">
-    ${p.demoUrl ? textLink('Live demo', p.demoUrl, 'target="_blank" rel="noopener"') : ''}
-    ${p.codeUrl ? textLink('Source code', p.codeUrl, 'target="_blank" rel="noopener"') : ''}
+    <button class="tlink" type="button" data-dialog-open="dlg-${p.slug}" aria-haspopup="dialog"><span>View details</span>${arrow()}</button>
+    ${projectLinks(p)}
   </div>
 </article>`;
+
+// Detail view: native <dialog>, opened by main.js. Keyboard: Esc closes.
+const projectDialog = (p) => `
+<dialog class="pdlg" id="dlg-${p.slug}" aria-labelledby="dlg-${p.slug}-title">
+  <div class="pdlg__inner">
+    <div class="pdlg__head">
+      <p class="proj__meta"><span class="tag tag--outline">${p.category}</span><span class="tag">${p.status}</span></p>
+      <button class="pdlg__close" type="button" data-dialog-close aria-label="Close details">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <h2 class="display pdlg__title" id="dlg-${p.slug}-title">${p.title}</h2>
+    ${p.image ? `<figure class="pdlg__media">
+      <a href="${p.image}" target="_blank" rel="noopener" aria-label="Open full-size screenshot of ${esc(p.title)} in a new tab">${projImg(p)}</a>
+      <figcaption>${p.imageCaption || 'Original dashboard screenshot.'} <a href="${p.image}" target="_blank" rel="noopener">Open full size</a></figcaption>
+    </figure>` : ''}
+    <div class="pdlg__grid${p.features || p.skills ? '' : ' pdlg__grid--single'}">
+      <div class="pdlg__about">
+        <h3 class="pdlg__h">About the project</h3>
+        ${join(p.description || [p.summary], (para) => `<p>${para}</p>`)}
+        ${hasTech(p) ? `<h3 class="pdlg__h">Technology</h3>
+        <ul class="chips">${join(p.tech, (t) => `<li>${t}</li>`)}</ul>` : ''}
+        ${p.demoUrl || p.codeUrl ? `<div class="btn-row">${projectLinks(p)}</div>` : ''}
+      </div>
+      ${p.features || p.skills ? `<div class="pdlg__lists">
+        ${p.features ? `<h3 class="pdlg__h">Dashboard features</h3><ul class="pdlg__features">${join(p.features, (f) => `<li>${f}</li>`)}</ul>` : ''}
+        ${p.skills ? `<h3 class="pdlg__h">Skills demonstrated</h3><ul class="chips">${join(p.skills, (s) => `<li>${s}</li>`)}</ul>` : ''}
+      </div>` : ''}
+    </div>
+  </div>
+</dialog>`;
+
+const slugify = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+// Group projects by category, keeping first-seen order.
+const projectGroups = () => {
+  const groups = new Map();
+  projects.forEach((p) => {
+    if (!groups.has(p.category)) groups.set(p.category, []);
+    groups.get(p.category).push(p);
+  });
+  return [...groups];
+};
 
 export const projectsPage = {
   slug: 'projects',
   file: 'projects.html',
   title: 'Projects',
-  description: 'Demo projects by Quantum Sitex, with screenshots, technologies used and live demo links as each one is completed.',
+  description: 'Completed projects by Quantum Sitex, including Power BI data analytics dashboards, with original screenshots, features and technologies used.',
   body: () => `
 ${pageHero({
   eyebrowText: 'Projects',
-  heading: ['Work in', '<em>progress</em>'],
-  intro: 'This page is for real demo projects only. Each one appears here once it’s built, with screenshots, the technologies used and a link to try it.',
+  heading: ['Our', '<em>work</em>'],
+  intro: 'Real, completed projects only. Each one is shown with its original screenshots, what it does and the technologies used.',
 })}
 
-<section class="section section--tight" aria-labelledby="proj-title">
+<section class="section section--tight" aria-label="Projects by category">
   <div class="wrap">
-    <h2 class="sr-only" id="proj-title">Projects</h2>
-    ${projects.length ? `<div class="proj-grid" data-stagger>${join(projects, projectCard)}</div>` : `
+    ${projects.length ? join(projectGroups(), ([cat, list]) => `
+    <div class="proj-cat" id="${slugify(cat)}">
+      <div class="proj-cat__head" data-reveal>
+        <h2 class="display h-md">${cat}</h2>
+        <p class="proj-cat__count">${list.length} ${list.length === 1 ? 'project' : 'projects'}</p>
+      </div>
+      <div class="proj-grid" data-stagger>${join(list, projectCard)}</div>
+    </div>`) + join(projects, projectDialog) : `
     <div class="empty" data-reveal>
       <div class="empty__frame" aria-hidden="true"><span></span><span></span><span></span></div>
       <div class="empty__body">

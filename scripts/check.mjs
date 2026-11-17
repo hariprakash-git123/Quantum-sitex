@@ -30,6 +30,14 @@ for (const [name, html] of Object.entries(docs)) {
   const navItems = (html.match(/<nav class="menu__nav"[\s\S]*?<\/nav>/) || [''])[0].match(/<li /g) || [];
   if (navItems.length !== 10) problems.push(`${name}: main menu has ${navItems.length} sections, expected 10`);
 
+  for (const [, src] of html.matchAll(/<img[^>]+src="([^"]+)"/g)) {
+    if (/^(https?:|data:|\/\/)/.test(src)) continue;
+    if (!files.includes(path.join(dist, src))) problems.push(`${name}: broken image → ${src}`);
+  }
+  for (const [tag] of html.matchAll(/<img\b[^>]*>/g)) {
+    if (!/\salt="/.test(tag)) problems.push(`${name}: image missing alt text → ${tag.slice(0, 80)}`);
+  }
+
   for (const [, href] of html.matchAll(/href="([^"]+)"/g)) {
     if (/^(https?:|mailto:|tel:|\/\/)/.test(href)) continue;
     const [file, hash] = href.split('#');
@@ -68,4 +76,4 @@ if (problems.length) {
   console.error(`✗ ${problems.length} problem(s):\n  ` + problems.join('\n  '));
   process.exit(1);
 }
-console.log(`✓ ${htmlFiles.length} pages checked: links, anchors, 10 sections, titles, descriptions, h1s, no purple/violet.`);
+console.log(`✓ ${htmlFiles.length} pages checked: links, anchors, images + alt text, 10 sections, titles, descriptions, h1s, no purple/violet.`);

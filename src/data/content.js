@@ -92,8 +92,8 @@ export const services = [
     includes: ['Bug fixes', 'Security updates', 'Performance tuning', 'Feature additions'],
   },
   {
-    slug: 'data-analytics',
-    name: 'Data & Analytics',
+    slug: 'data-driven-solutions',
+    name: 'Data-Driven Solutions',
     group: 'Intelligence',
     summary:
       'Turning scattered data into dashboards and reports that answer the questions your team keeps asking.',
@@ -249,8 +249,105 @@ export const roadmap = [
   },
 ];
 
-// Real demo projects only. Leave empty until a project is actually built.
-// Shape: { title, summary, image: 'assets/projects/x.webp', imageAlt, tech: ['React', …], demoUrl, codeUrl }
-export const projects = [];
+// Real, completed projects only. The Projects page groups them by `category`.
+// Images go in src/assets/projects/ — use the original screenshots, unedited.
+// Shape: { slug, title, category, status, tech: [], summary, description: [],
+//          features: [], skills: [], image, imageAlt, width, height, demoUrl?, codeUrl? }
+export const projects = [
+  {
+    slug: 'mobile-sales-dashboard',
+    title: 'Mobile Sales Dashboard',
+    category: 'Data Analytics',
+    status: 'Completed',
+    tech: ['Microsoft Power BI'],
+    summary:
+      'An interactive Power BI dashboard analysing mobile phone sales across brands, cities, payment methods and models.',
+    description: [
+      'This project presents an interactive Mobile Sales Dashboard built using Microsoft Power BI.',
+      'The dashboard provides a comprehensive analysis of mobile phone sales performance across different brands, cities, payment methods and mobile models.',
+      'The objective of this project is to transform raw sales data into meaningful business insights through interactive visualizations, KPIs, filters and data analysis.',
+    ],
+    features: [
+      'Total Orders KPI',
+      'Total Quantity KPI',
+      'Cities Overview',
+      'Brands Overview',
+      'Payment Methods Overview',
+      'Orders Trend by Month',
+      'Top Brands Analysis',
+      'Revenue by Brand',
+      'Payment Method Distribution',
+      'Top Selling Models',
+      'Interactive Brand and City Filters',
+    ],
+    skills: [
+      'Microsoft Power BI', 'Data Visualization', 'Business Intelligence', 'Sales Performance Analysis',
+      'KPI Reporting', 'Interactive Dashboard Design', 'Data Analysis',
+    ],
+    image: 'assets/projects/mobile-sales-dashboard.jpeg',
+    imageAlt:
+      'Mobile Sales Dashboard in Power BI showing order, quantity, city, brand and payment-method KPIs, a monthly orders trend, top brands, revenue by brand, payment method split and top selling models.',
+    width: 1331,
+    height: 737,
+  },
+  {
+    slug: 'car-sales-dashboard-dax',
+    title: 'Car Sales Dashboard (DAX)',
+    category: 'Data Analytics',
+    status: 'Completed',
+    tech: ['Microsoft Power BI', 'DAX'],
+    summary:
+      'A Power BI and DAX dashboard covering car sales performance, revenue, profitability, sales growth and brand contributions.',
+    description: [
+      'This project presents a Car Sales Dashboard built using Microsoft Power BI and DAX.',
+      'The dashboard provides an overview of car sales performance, revenue, profitability, sales growth and brand contributions through interactive visualizations and business performance indicators.',
+      'It helps users explore sales trends and understand different aspects of car sales performance.',
+    ],
+    features: [
+      'YTD Sales KPI',
+      'Month-over-Month Growth KPI',
+      'Total Revenue KPI',
+      'Profit Margin KPI',
+      'Profit per Car KPI',
+      'Sales Growth Percentage KPI',
+      'YTD Sales by Month',
+      'Sales Amount by Region',
+      'Sales Contribution by Brand',
+      'Revenue vs Profit Analysis',
+      'Customer Rating by Brand',
+      'Year, Month and Region Filters',
+    ],
+    skills: [
+      'Microsoft Power BI', 'DAX', 'Data Visualization', 'Business Intelligence', 'Sales and Revenue Analysis',
+      'Profitability Analysis', 'KPI Development', 'Interactive Dashboard Design',
+    ],
+    image: 'assets/projects/car-sales-dashboard-dax.png',
+    imageAlt:
+      'Car Sales Dashboard (DAX) in Power BI showing YTD sales, month-over-month growth, revenue, profit margin, profit per car and sales growth KPIs, with charts for YTD sales by month, sales by region, brand contribution, revenue versus profit and customer rating by brand.',
+    width: 1415,
+    height: 798,
+  },
+  {
+    slug: 'personal-portfolio-website',
+    title: 'Personal Portfolio Website',
+    category: 'Website Development',
+    status: 'Completed',
+    tech: [],
+    summary:
+      'A personal portfolio website that showcases professional information, skills, projects and personal work through a dedicated online presence.',
+    description: [
+      'A personal portfolio website developed to showcase professional information, skills, projects and personal work through a dedicated online presence.',
+      'The website provides visitors with an overview of the portfolio owner’s background, capabilities and work.',
+    ],
+    image: 'assets/projects/personal-portfolio-website.png',
+    imageAlt:
+      'Home page of the personal portfolio website: a dark layout with the headline “Hi, I’m Hariprakash P”, a short introduction, View Projects, GitHub Profile and Contact Me buttons, and a circular profile photo marked “Open to roles”.',
+    imageCaption: 'Original website screenshot.',
+    width: 1917,
+    height: 1025,
+    demoUrl: 'https://hariprakashportfoliohp.netlify.app/',
+    demoLabel: 'View live website',
+  },
+];
 
 export const process = ['Imagine it', 'Design it', 'Develop it', 'Integrate AI', 'Launch it', 'Grow it'];

@@ -227,6 +227,27 @@
     else { img.addEventListener('load', done, { once: true }); img.addEventListener('error', done, { once: true }); }
   });
 
+  /* ── Project detail dialogs ─────────────────────────────── */
+  $$('[data-dialog-open]').forEach((trigger) => {
+    trigger.addEventListener('click', () => {
+      const dlg = d.getElementById(trigger.dataset.dialogOpen);
+      if (!dlg || typeof dlg.showModal !== 'function' || dlg.open) return;
+      // Return focus to the card's button, even when the screenshot was clicked.
+      const card = trigger.closest('.proj');
+      dlg._returnTo = (card && $('button[data-dialog-open]', card)) || trigger;
+      dlg.showModal();
+      html.classList.add('dialog-open');
+    });
+  });
+  $$('dialog.pdlg').forEach((dlg) => {
+    $$('[data-dialog-close]', dlg).forEach((b) => b.addEventListener('click', () => dlg.close()));
+    dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); }); // backdrop
+    dlg.addEventListener('close', () => {
+      html.classList.remove('dialog-open');
+      if (dlg._returnTo) dlg._returnTo.focus();
+    });
+  });
+
   /* ── Contact form ───────────────────────────────────────── */
   const form = $('[data-form]');
   if (form) initForm(form);

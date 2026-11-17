@@ -12,7 +12,7 @@ export const site = {
   // Public URL of the deployed site, without a trailing slash.
   // e.g. 'https://www.example.com'. When empty, canonical tags and
   // sitemap.xml are skipped (they require absolute URLs).
-  url: '',
+  url: 'https://hariprakash-git123.github.io/Quantum-sitex',
 
   email: 'hpwebapplication@gmail.com',
   whatsapp: {
