@@ -348,6 +348,26 @@ export const projects = [
     demoUrl: 'https://hariprakashportfoliohp.netlify.app/',
     demoLabel: 'View live website',
   },
+  {
+    slug: 'sitex-spectrum',
+    title: 'Sitex Spectrum',
+    category: 'Web Application Development',
+    status: 'Project Showcase',
+    tech: ['React', 'Vite', 'Express.js', 'OpenSearch', 'MongoDB', 'Redis', 'Parallel Search'],
+    summary:
+      'A web-based search platform combining modern frontend development with backend search infrastructure.',
+    description: [
+      'Sitex Spectrum is a web-based search platform designed to provide an integrated search experience through a modern user interface and backend search infrastructure.',
+      'The project combines frontend development, backend services, search infrastructure and database technologies to support a search-focused web application.',
+      'The objective is to create a unified search experience through a dedicated web interface and supporting backend technologies.',
+    ],
+    image: 'assets/projects/sitex-spectrum.png',
+    imageAlt:
+      'Sitex Spectrum front page: a dark search interface with the title “Sitex Spectrum”, the tagline “Search beyond keywords.”, a large search bar, an “I’m Feeling Curious” button and shortcut icons for Wikipedia, YouTube, GitHub, Stack Overflow and LinkedIn.',
+    imageCaption: 'Front-page screenshot.',
+    width: 1895,
+    height: 1023,
+  },
 ];
 
 export const process = ['Imagine it', 'Design it', 'Develop it', 'Integrate AI', 'Launch it', 'Grow it'];
